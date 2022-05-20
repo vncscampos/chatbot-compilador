@@ -17,7 +17,7 @@ class Lexico:
         self.__pergunta = ('qual', 'quais', 'quanto', 'quantos', 'quantas', 'como', 'quando')
         self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'comprei', 'atualizei', 'liguei', 'desliguei', 'reiniciei', 'configurar', 'instalar', 'configurei', 'formatar', 'formatei', 'ligou', 'reiniciou')
         self.__afirmacao = ('sim', 'não')
-        self.__defeito = ('quebrado','lento','devagar','quente','vírus','travou','travado','parou','parado','barulho','ruído','congelou','não liga','não quer ligar','não ligou')
+        self.__defeito = ('quebrado','lento','devagar','quente','vírus','travou','travado','parou','parado','barulho','ruído','congelou')
         self.__adjetivo = (self.__defeito, 'rápido','potente','barato','caro','novo','melhor')
         self.__fabricante = ('apple','dell','samsung','lenovo','multilaser','logitech','acer','positivo','asus')
         self.__dispositivo = ('teclado','mouse','monitor','tela','notebook','computador','tablet','headset','headphone','fone de ouvido','drivers','impressora', 'PC', 'CPU', 'processador')
@@ -31,11 +31,11 @@ class Lexico:
         pass
 
     def analysis(self, text: str):
-        text = text.lower()
+        text = text.lower() #Passar o texto para minúsculo
         text = self.__scanning(text) #Escaneia a-zA-Z0-9 e pontuações
         text = self.__remove_stopwords(text) #Remove palavras que estão na stopwords
 
-        self.__lexeme_lists()
+        self.__lexeme_lists() #Deixa apenas os radicais da lista de adjetivo, ação e defeitos
 
         tokenfy = []
         for word in text:
@@ -45,10 +45,10 @@ class Lexico:
             if(self.__lexeme(word) in self.__acao):
                 tokenfy.append(Token(TK_ACAO, word).toString())
 
-            if(word in self.__defeito):
+            if(self.__lexeme(word) in self.__defeito):
                 tokenfy.append(Token(TK_DEFEITO, word).toString())
 
-            if(word in self.__adjetivo):
+            if(self.__lexeme(word) in self.__adjetivo):
                 tokenfy.append(Token(TK_ADJETIVO, word).toString())
 
             if(word in self.__fabricante):
@@ -84,7 +84,12 @@ class Lexico:
             temp.append(self.__lexeme(word))
         self.__acao = temp
 
-        # temp = []
-        # for word in self.__adjetivo:
-        #     temp.append(self.__lexeme(word))
-        # self.__adjetivo = temp
+        temp = []
+        for word in self.__defeito:
+            temp.append(self.__lexeme(word))
+        self.__defeito = temp
+
+        temp = []
+        for word in self.__adjetivo[1:]:
+            temp.append(self.__lexeme(word))
+        self.__adjetivo = (self.__defeito, temp)
