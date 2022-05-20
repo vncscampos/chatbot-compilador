@@ -1,0 +1,36 @@
+<pergunta> ::= qual | quais | quanto | quantos | quantas | como | quando
+
+<oração> ::= 
+<pergunta> <ação> <dispositivo> <fabricante> | 
+<pergunta> <dispositivo> <ação> | 
+<pergunta> <dispositivo> <adjetivo> | 
+<pergunta> <adjetivo> <dispositivo> <ação> | 
+<pergunta> <ação> <dispositivo> | 
+<pergunta> <ação> <dispositivo> <dispositivo>
+
+<atribuição> ::= 
+<dispositivo> <fabricante> | 
+<dispositivo> <fabricante> <defeito> | 
+<dispositivo> <defeito> | 
+<afirmação> | 
+<dispositivo> <defeito> <defeito> | 
+<defeito> <defeito> |
+<ação> <dispositivo> | 
+<ação> <dispositivo> <fabricante> <defeito> | 
+<ação> <dispositivo> <defeito> | 
+<dispositivo> <defeito> <ação> | 
+<fabricante>
+
+<ação> ::= ligar | reiniciar | desligar | jogar | atualizar | comprar | comprei | atualizei | liguei | desliguei | reiniciei | configurar | instalar | configurei | formatar | formatei | ligou | reiniciou 
+
+<afirmação> ::= sim | não
+
+<adjetivo> ::= <defeito> | rápido | potente | barato | caro | novo | melhor
+
+<defeito> ::= quebrado | lento | devagar | quente | vírus | travou | travado | parou | parado | barulho | ruído | congelou | não liga | não quer ligar | não ligou
+
+<fabricante> ::= apple | dell | samsung | lenovo | multilaser | logitech | acer | positivo | asus
+
+<dispositivo> ::= teclado | mouse | monitor | tela | notebook | computador | tablet | headset | headphone | fone de ouvido | drivers | impressora
+
+<stopwords> ::= https://gist.github.com/alopes/5358189
