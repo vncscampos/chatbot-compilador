@@ -34,3 +34,23 @@
 <dispositivo> ::= teclado | mouse | monitor | tela | notebook | computador | tablet | headset | headphone | fone de ouvido | drivers | impressora
 
 <stopwords> ::= https://gist.github.com/alopes/5358189
+
+Perguntas
+Como faço para reiniciar o notebook da Apple?
+Qual é o produto adequado para fazer X?
+Qual melhor computador para jogar?
+Como faço para atualizar os drivers do computador?
+Quando eu preciso atualizar a impressora?
+
+Atribuição
+Meu notebook está fazendo barulho
+Meu notebook está quente
+Notebook da lenovo está devagar
+O fabricante é a Apple.
+É samsung.
+O fabricante do meu mouse é logitech
+Eu configurei o notebook
+O computador congelou e depois de um tempo não ligou mais
+O computador congelou e depois reiniciou
+Formatei o computador mas ele não que ligar
+O computador estava quente e desligou
