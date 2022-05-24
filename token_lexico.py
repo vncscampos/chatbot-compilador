@@ -7,8 +7,8 @@ class TokenInterface(ABC):
 
 class Token(TokenInterface):
     def __init__(self, type, text):
-        self.__type = type
-        self.__text = text
+        self.type = type
+        self.text = text
         
     def toString(self):
-        return "<type={}, text={}>".format(self.__type, self.__text)
+        return "<type={}, text={}>".format(self.type, self.text)

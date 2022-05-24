@@ -12,7 +12,8 @@ texts = (
 'Notebook da lenovo está devagar.',
 'O computador estava quente e desligou.',
 'Formatei o computador mas ele não liga.',
-'Meu computador é potente mas está travando muito.'
+'Meu computador é potente mas está travando muito.',
+'Sim, meu computador é novo',
 )
 
 for text in texts:

@@ -70,28 +70,26 @@ class Lexico:
         
         for word in text:
             if(not self.__is_key_word(word)):
-                if(self.__lexeme(word) in self.__lexeme_list(self.__acao)):
-                    if(word not in table):
-                        table.append(Token(TK_ACAO, word))
+                if(word not in table):
+                    if(self.__lexeme(word) in self.__lexeme_list(self.__acao)):
+                        if(self.__is_affirmative(table)):
+                            table.append(Token(TK_DEFEITO, 'não {}'.format(word)))
+                        else:
+                            table.append(Token(TK_ACAO, word))
 
-                elif (self.__lexeme(word) in self.__lexeme_list(self.__defeito)):
-                    if(word not in table):
+                    elif (self.__lexeme(word) in self.__lexeme_list(self.__defeito)):
                         table.append(Token(TK_DEFEITO, word))  
 
-                elif(word in self.__fabricante):
-                    if(word not in table):
+                    elif(word in self.__fabricante):
                         table.append(Token(TK_FABRICANTE, word))  
 
-                elif(word in self.__dispositivo):
-                    if(word not in table):
+                    elif(word in self.__dispositivo):
                         table.append(Token(TK_DISPOSITIVO, word))
-                        
-                elif(any(self.__lexeme(word) in sublist for sublist in self.__lexeme_list(self.__adjetivo))):
-                    if(word not in table):
+
+                    elif(any(self.__lexeme(word) in sublist for sublist in self.__lexeme_list(self.__adjetivo))):
                         table.append(Token(TK_ADJETIVO, word))  
 
-                elif(any(word in sublist for sublist in self.__afirmacao)):
-                    if(word not in table):
+                    elif(any(word in sublist for sublist in self.__afirmacao)):
                         table.append(Token(TK_AFIRMACAO, word))  
 
         return table
@@ -101,6 +99,16 @@ class Lexico:
             return True
 
         return False
+
+    def __is_affirmative(self, table: List[Token]):
+        if(len(table) != 0):
+            last = table.pop()
+
+            if(last.text != 'não'):
+                table.append(last)
+                return False
+
+            return True
 
     def print_symbol_table(self, table: List[Token]):
         print('_'*5,'TABELA DE SÍMBOLOS', '_'*5)
