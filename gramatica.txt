@@ -23,11 +23,13 @@
 
 <ação> ::= ligar | reiniciar | desligar | jogar | atualizar | comprar | comprei | atualizei | liguei | desliguei | reiniciei | configurar | instalar | configurei | formatar | formatei | ligou | reiniciou 
 
-<afirmação> ::= sim | não
+<afirmação> ::= sim | <negação>
+
+<negação> ::= não | sem
 
 <adjetivo> ::= <defeito> | rápido | potente | barato | caro | novo | melhor
 
-<defeito> ::= quebrado | lento | devagar | quente | vírus | travou | travado | parou | parado | barulho | ruído | congelou | não liga | não quer ligar | não ligou
+<defeito> ::= quebrado | lento | devagar | quente | vírus | travou | travado | parou | parado | barulho | ruído | congelou | <negação> <ação>
 
 <fabricante> ::= apple | dell | samsung | lenovo | multilaser | logitech | acer | positivo | asus
 
@@ -37,10 +39,8 @@
 
 Perguntas
 Como faço para reiniciar o notebook da Apple?
-Qual é o produto adequado para fazer X?
 Qual melhor computador para jogar?
 Como faço para atualizar os drivers do computador?
-Quando eu preciso atualizar a impressora?
 
 Atribuição
 Meu notebook está fazendo barulho
@@ -52,5 +52,4 @@ O fabricante do meu mouse é logitech
 Eu configurei o notebook
 O computador congelou e depois de um tempo não ligou mais
 O computador congelou e depois reiniciou
-Formatei o computador mas ele não que ligar
 O computador estava quente e desligou

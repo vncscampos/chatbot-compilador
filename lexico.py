@@ -14,13 +14,14 @@ TK_DISPOSITIVO = 'dispositivo'
 
 class Lexico:
     def __init__(self):
-        self.__pergunta = ('qual', 'quais', 'quanto', 'como', 'quando')
-        self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'configurar', 'instalar', 'formatar','limpar', 'usar')
-        self.__afirmacao = ('sim', 'não')
-        self.__defeito = ('quebrado','lento','devagar','quente','vírus','travado','parado','barulho','ruído','congelado')
+        self.__pergunta = ('qual', 'quais', 'quanto', 'quantos', 'quantas', 'como', 'quando')
+        self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'configurar', 'instalar', 'formatar','limpar', 'usar', 'imprimir')
+        self.__negacao = ('nunca', 'não', 'sem')
+        self.__afirmacao = ('sim', self.__negacao)
+        self.__defeito = ('quebrado','lento','devagar','quente','vírus','travado','parado','barulho','ruído','congelou')
         self.__adjetivo = (self.__defeito, 'rápido','potente','barato','caro','novo','melhor')
         self.__fabricante = ('apple','dell','samsung','lenovo','multilaser','logitech','acer','positivo','asus')
-        self.__dispositivo = ('teclado','mouse','monitor','tela','notebook','computador','tablet','headset','headphone','drivers','impressora', 'PC', 'CPU', 'processador')
+        self.__dispositivo = ('teclado','mouse','monitor','tela','notebook','computador','tablet','headset','headphone', 'fone de ouvido','drivers','impressora')
 
         try:
             # https://github.com/stopwords-iso/stopwords-pt/blob/master/stopwords-pt.txt
@@ -38,7 +39,6 @@ class Lexico:
 
         table: List[Token] = self.__create_symbol_table(text) #Cria tabela de símbolos passando texto sem stopwords
 
-        self.print_token_list(text)
         self.print_symbol_table(table)
 
     def __scanning(self, text: str):
@@ -69,18 +69,30 @@ class Lexico:
         table: List[Token] = []
         
         for word in text:
-            if(self.__is_key_word(word) == False):
-                if(self.__lexeme(word) in self.__lexeme_list(self.__pergunta)):
-                    table.append(Token(TK_PERGUNTA, word))
-
+            if(not self.__is_key_word(word)):
                 if(self.__lexeme(word) in self.__lexeme_list(self.__acao)):
-                    table.append(Token(TK_ACAO, word))
+                    if(word not in table):
+                        table.append(Token(TK_ACAO, word))
 
-                if(self.__lexeme(word) in self.__lexeme_list(self.__defeito)):
-                    table.append(Token(TK_DEFEITO, word))
+                elif (self.__lexeme(word) in self.__lexeme_list(self.__defeito)):
+                    if(word not in table):
+                        table.append(Token(TK_DEFEITO, word))  
 
-                if(self.__lexeme(word) in self.__lexeme_list(self.__adjetivo)):
-                    table.append(Token(TK_ADJETIVO, word))
+                elif(word in self.__fabricante):
+                    if(word not in table):
+                        table.append(Token(TK_FABRICANTE, word))  
+
+                elif(word in self.__dispositivo):
+                    if(word not in table):
+                        table.append(Token(TK_DISPOSITIVO, word))
+                        
+                elif(any(self.__lexeme(word) in sublist for sublist in self.__lexeme_list(self.__adjetivo))):
+                    if(word not in table):
+                        table.append(Token(TK_ADJETIVO, word))  
+
+                elif(any(word in sublist for sublist in self.__afirmacao)):
+                    if(word not in table):
+                        table.append(Token(TK_AFIRMACAO, word))  
 
         return table
 
@@ -88,55 +100,10 @@ class Lexico:
         if(word in self.__pergunta):
             return True
 
-        if(word in self.__acao):
-            return True
-
-        if(word in self.__defeito):
-            return True
-
-        if(word in self.__adjetivo):
-            return True
-
-        if(word in self.__fabricante):
-            return True
-
-        if(word in self.__dispositivo):
-            return True
-
-        if(word in self.__afirmacao):
-            return True
-        
         return False
 
     def print_symbol_table(self, table: List[Token]):
         print('_'*5,'TABELA DE SÍMBOLOS', '_'*5)
         for token in table:
             print(token.toString())
-        print('\n')
-
-    def print_token_list(self, text: List[str]):
-        list_token = []
-        print('_'*5, 'LISTA DE TOKENS', '_'*5)
-        for word in text:
-            if(self.__lexeme(word) in self.__lexeme_list(self.__pergunta)):
-                list_token.append(Token(TK_PERGUNTA, word).toString())
-
-            if(self.__lexeme(word) in self.__lexeme_list(self.__acao)):
-                list_token.append(Token(TK_ACAO, word).toString())
-
-            if(self.__lexeme(word) in self.__lexeme_list(self.__defeito)):
-                list_token.append(Token(TK_DEFEITO, word).toString())
-
-            if(self.__lexeme(word) in self.__lexeme_list(self.__adjetivo)):
-                list_token.append(Token(TK_ADJETIVO, word).toString())
-
-            if(word in self.__fabricante):
-                list_token.append(Token(TK_FABRICANTE, word).toString())
-
-            if(word in self.__dispositivo):
-                list_token.append(Token(TK_DISPOSITIVO, word).toString())
-
-            if(word in self.__afirmacao):
-                list_token.append(Token(TK_AFIRMACAO, word).toString())
-
-        print(list_token, '\n')
+        print('')
