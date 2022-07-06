@@ -1,0 +1,10 @@
+Se o seu computador estiver com vírus, estas dez etapas simples ajudarão você a se livrar dele:
+- baixe e instale um verificador de vírus
+- desconecte-se da Internet
+- reinicie o computador no modo de segurança
+- exclua todos os arquivos temporários
+- execute uma verificação de vírus
+- exclua o vírus ou coloque-o em quarentena
+- reinicie o computador
+- altere todas as suas senhas
+- atualize o software, o navegador e o sistema operacional

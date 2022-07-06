@@ -13,33 +13,26 @@ TK_FABRICANTE = 'fabricante'
 TK_DISPOSITIVO = 'dispositivo'
 
 class Lexico:
-    def __init__(self):
+    def __init__(self, stopwords):
         self.__pergunta = ('qual', 'quais', 'quanto', 'quantos', 'quantas', 'como', 'quando')
-        self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'configurar', 'instalar', 'formatar','limpar', 'usar', 'imprimir')
+        self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'configurar', 'instalar', 'formatar','limpar', 'usar', 'imprimir', 'remover')
         self.__negacao = ('nunca', 'não', 'sem')
         self.__afirmacao = ('sim', self.__negacao)
         self.__defeito = ('quebrado','lento','devagar','quente','vírus','travado','parado','barulho','ruído','congelou')
         self.__adjetivo = (self.__defeito, 'rápido','potente','barato','caro','novo','melhor')
-        self.__fabricante = ('apple','dell','samsung','lenovo','multilaser','logitech','acer','positivo','asus')
+        self.__fabricante = ('apple','dell','samsung','lenovo','multilaser','logitech','acer','positivo','asus', 'windows')
         self.__dispositivo = ('teclado','mouse','monitor','tela','notebook','computador','tablet','headset','headphone', 'fone de ouvido','drivers','impressora')
 
-        try:
-            # https://github.com/stopwords-iso/stopwords-pt/blob/master/stopwords-pt.txt
-            file = open('stopwords.txt', 'r', encoding="utf8")
-            self.__stopwords = [line[:-1] for line in file]
-        except FileNotFoundError as err:
-            print(err)
-            sys.exit()
-        pass
+        self.__table: List[Token] = []
+        self.__stopwords = stopwords
 
     def analysis(self, text: str):
         text = text.lower() #Passar o texto para minúsculo
         text = self.__scanning(text) #Escaneia a-zA-Z0-9 e pontuações
         text = self.__remove_stopwords(text) #Remove palavras que estão na stopwords
 
-        table: List[Token] = self.__create_symbol_table(text) #Cria tabela de símbolos passando texto sem stopwords
-
-        self.print_symbol_table(table)
+        self.__table += self.__create_symbol_table(text) #Cria tabela de símbolos passando texto sem stopwords
+        self.print_symbol_table()
 
     def __scanning(self, text: str):
         text = re.sub('[^a-záàâãéèêíóôõúçA-Z0-9 \n]', '', text)
@@ -70,7 +63,7 @@ class Lexico:
         
         for word in text:
             if(not self.__is_key_word(word)):
-                if(word not in table):
+                if(not self.__check_word_exists(word)):
                     if(self.__lexeme(word) in self.__lexeme_list(self.__acao)):
                         if(self.__is_affirmative(table)):
                             table.append(Token(TK_DEFEITO, 'não {}'.format(word)))
@@ -110,8 +103,14 @@ class Lexico:
 
             return True
 
-    def print_symbol_table(self, table: List[Token]):
+    def __check_word_exists(self, word: str):
+        for token in self.__table:
+            if(token.text == word):
+                return True
+        return False
+
+    def print_symbol_table(self):
         print('_'*5,'TABELA DE SÍMBOLOS', '_'*5)
-        for token in table:
+        for token in self.__table:
             print(token.toString())
         print('')
