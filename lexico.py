@@ -1,6 +1,5 @@
 from typing import List
 import re
-import sys
 from token_lexico import Token
 from nltk.stem.snowball import SnowballStemmer
 
@@ -15,7 +14,7 @@ TK_DISPOSITIVO = 'dispositivo'
 class Lexico:
     def __init__(self, stopwords):
         self.__pergunta = ('qual', 'quais', 'quanto', 'quantos', 'quantas', 'como', 'quando')
-        self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'configurar', 'instalar', 'formatar','limpar', 'usar', 'imprimir', 'remover')
+        self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'configurar', 'instalar', 'formatar','limpar', 'usar', 'imprimir', 'remover', 'backup')
         self.__negacao = ('nunca', 'não', 'sem')
         self.__afirmacao = ('sim', self.__negacao)
         self.__defeito = ('quebrado','lento','devagar','quente','vírus','travado','parado','barulho','ruído','congelou')
@@ -32,7 +31,8 @@ class Lexico:
         text = self.__remove_stopwords(text) #Remove palavras que estão na stopwords
 
         self.__table += self.__create_symbol_table(text) #Cria tabela de símbolos passando texto sem stopwords
-        self.print_symbol_table()
+
+        return self.__table
 
     def __scanning(self, text: str):
         text = re.sub('[^a-záàâãéèêíóôõúçA-Z0-9 \n]', '', text)
@@ -83,7 +83,9 @@ class Lexico:
                         table.append(Token(TK_ADJETIVO, word))  
 
                     elif(any(word in sublist for sublist in self.__afirmacao)):
-                        table.append(Token(TK_AFIRMACAO, word))  
+                        table.append(Token(TK_AFIRMACAO, word))
+
+                    
 
         return table
 

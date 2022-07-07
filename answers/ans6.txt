@@ -1,4 +1,4 @@
-Para começar o processo de formatação do PC, você deve ligá-lo e abrir o menu “Iniciar” do Windows;
+Para formatar o seu Windows, você deve ligá-lo e abrir o menu “Iniciar” do Windows;
 Na sequência, o usuário deve clicar no ícone de “Configurações”;
 Agora, basta selecionar o menu do sistema chamado de “Atualização e Segurança”;
 Na barra lateral à esquerda da tela, clique em “Recuperação”. Agora, vá na opção “Restaurar PC”;

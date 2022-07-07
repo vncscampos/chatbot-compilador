@@ -34,8 +34,8 @@ texts = (
 finish = True
 while(finish):
     query = input('>> ')
-    lexico.analysis(query)
-    # ans = translator.translate(table)
-    # print('\nChatbot: ',ans)
-    # finish = False
-    
+    table = lexico.analysis(query)
+    translator.tfidf_calc(table)
+    ans = translator.response(query)
+    print('Chatbot: ', ans)
+    finish = False

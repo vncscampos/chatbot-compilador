@@ -1,0 +1,5 @@
+No Windows, você pode restaurar arquivos de um backup criado com Backup e Restauração ou Histórico de Arquivos. Siga esses passos:
+- Conexão o dispositivo de armazenamento externo que contém seus arquivos de backup.
+- Na caixa de pesquisa na barra de tarefas, digite Painel de Controle.
+- Selecione-o na lista de resultados e selecione Backup e Restauração (Windows 7).
+- Selecione outro backup para restaurar arquivos de, selecione o local do dispositivo de armazenamento externo e siga as instruções para restaurar seus arquivos.
