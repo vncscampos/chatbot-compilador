@@ -1,78 +1,78 @@
 from typing import List
 from token_lexico import Token
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-from nltk.stem.snowball import SnowballStemmer
 import re
+import json
 
 class Translator:
     def __init__(self, stopwords, answers):
-        self.__answers = answers
-        self.__stopwords = stopwords
-        self.__inverted_file = {}
+        self.__answers: List[str] = answers
+        self.__stopwords: List[str] = stopwords
 
-    def response(self, query: str):
-        query = query.split()
+        try:
+            print('chego1')
+            file = open('inverted_index.json')
+            self.__inverted_index = json.load(file)
+        except:
+            print('chego2')
+            self.__inverted_index = self.generate_inverted_index()
 
-        temp_score = 0
-        answer_index = 0
-        for word in query:
-            if(word in self.__inverted_file):
-                scores = self.__inverted_file[word]
-                max_score = max(scores)
-                max_index = scores.index(max_score)
+    def translate(self, table: List[Token]):
+        tf_idf = 0
+        index = 0
 
-                if(temp_score < max_score):
-                    temp_score = max_score
-                    answer_index = max_index
-
-
-        return self.__answers[answer_index]
-
-    def tfidf_calc(self, table: List[Token]):
         for token in table:
             word = token.text
 
-            temp_list = [0] * (len(self.__inverted_file)-1)
-            for i in range(len(self.__answers)):
-                new_answer = self.__ans_lexeme(self.__answers[i])
-                list_text = [self.__lexeme(word), new_answer]
+            if(word in self.__inverted_index):
+                    occurrences = self.__inverted_index[word]
+                    for j in occurrences:
+                        document = self.__answers[j]
 
-                vectorizer = TfidfVectorizer(stop_words=self.__stopwords)
-                vectorizer.fit_transform(list_text)
-                tfidf_text1, tfidf_text2 = vectorizer.transform([list_text[0]]), vectorizer.transform([list_text[1]])
-                score = np.round(cosine_similarity(tfidf_text1, tfidf_text2)[0][0], 4)
+                        temp_tf_idf = self.term_freq(document, word) * self.inverse_doc_freq(word)
 
-                temp_list.insert(i, score)
-            
-            word_index = {}
-            word_index[word] = temp_list
-            temp_dict = self.__inverted_file
-            temp_dict.update(word_index)
-            self.__inverted_file = temp_dict
+                        if(tf_idf < temp_tf_idf):
+                            tf_idf = temp_tf_idf
+                            index = j
 
-    def __ans_lexeme(self, answer: str):
-        new_answer: str = answer.lower()
+        return self.__answers[index]
 
-        new_answer: list = re.sub('[^a-záàâãéèêíóôõúçA-Z0-9 \n]', '', new_answer).split(' ')
 
-        temp_text = new_answer
-        for word in temp_text:
+    def term_freq(self, document: str, word: str):
+        N = len(re.findall(r'\w+', document))
+        occurrence = document.lower().count(word)
+        return occurrence/N
+    
+    def document_freq(self, word):
+        return len(self.__inverted_index[word])
+
+    def inverse_doc_freq(self, word):
+        return np.log(len(self.__answers)/self.document_freq(word)+1)
+
+    def generate_inverted_index(self):
+        inverted_index = {}
+
+        for index, text in enumerate(self.__answers):
+            answer = self.pre_processing(text)
+
+            for word in answer:
+                if word not in inverted_index.keys():
+                    inverted_index[word] = [index]
+                elif index not in inverted_index[word]:
+                    inverted_index[word].append(index)
+
+        return inverted_index
+
+    def pre_processing(self, text):
+        text = text.lower()
+        text = re.sub('[!\"#$%&()*+-./:;<=>?@[\]^_`{|}~\n]', '', text).split(' ')
+        for word in text:
             if(word in self.__stopwords):
-                text = list(filter((word).__ne__, new_answer))
+                text = list(filter((word).__ne__, text))
 
-        new_answer = text
+        return text
 
-        temp = ''
-        for word in new_answer:
-            if(type(word) is str):
-                temp += self.__lexeme(word) + ' '
-
-        new_answer = temp
-        return new_answer
-
-    def __lexeme(self, word: str):
-        # https://www.nltk.org/_modules/nltk/stem/snowball.html
-        snow_stemmer = SnowballStemmer(language='portuguese')
-        return snow_stemmer.stem(word)
+    def save_inverted_index(self):
+        with open('inverted_index.json', 'w') as outfile:
+            json.dump(self.__inverted_index, outfile)
+            outfile.close()

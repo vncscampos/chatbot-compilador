@@ -30,7 +30,7 @@ class Lexico:
         text = self.__scanning(text) #Escaneia a-zA-Z0-9 e pontuações
         text = self.__remove_stopwords(text) #Remove palavras que estão na stopwords
 
-        self.__table += self.__create_symbol_table(text) #Cria tabela de símbolos passando texto sem stopwords
+        self.__table = self.__create_symbol_table(text) #Cria tabela de símbolos passando texto sem stopwords
 
         return self.__table
 

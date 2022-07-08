@@ -10,11 +10,14 @@ answers = file_reader.read_answers()
 lexico = Lexico(stopwords)
 translator = Translator(stopwords, answers)
 
-finish = True
-while(finish):
+while(True):
     query = input('>> ')
+
+    if(query == 'TCHAU'):
+        break
+
     table = lexico.analysis(query)
-    translator.tfidf_calc(table)
-    ans = translator.response(query)
+    ans = translator.translate(table)
     print('Chatbot: ', ans)
-    finish = False
+
+translator.save_inverted_index()
