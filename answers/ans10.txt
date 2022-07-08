@@ -1,0 +1,10 @@
+Usuários da Apple podem formatar o Mac e reinstalar o macOS sem ajuda de mídia física, como CD ou pendrive. Se o MacBook, iMac, Mac Mini ou Mac Pro estiver conectado a uma rede Wi-Fi, basta executar os comandos corretos na tela de recuperação para obter uma cópia nova e original do software via internet.
+Passo 1. Se você já fez backup dos seus dados ou removeu suas credenciais, já pode formatar o Mac sem medo. Para isso, desligue o computador e aperte no botão de energia para iniciar novamente. Enquanto isso, mantenha pressionadas as teclas Command + R até o fim do processo de inicialização.
+Passo 2. Se tudo correr bem, você irá pular o macOS e acessar o menu de recuperação do computador. Marque a opção “Utilitário de disco” e clique em “Continuar”.
+Passo 3. Selecione, à esquerda, o disco de armazenamento interno do seu Mac. Depois, clique na opção “Apagar” no menu superior.
+Passo 4. Certifique-se de que o formato APFS esteja selecionado e clique em “Apagar”.
+Passo 5. Em seguida, feche a janela do Utilitário de Disco e selecione a opção “Reinstalar macOS”.
+Passo 6. O Mac irá obter a versão mais recente do software disponível para o seu computador. Clique em “Continuar”.
+Passo 7. Se ainda não estiver conectado, clique no botão de Wi-Fi para abrir a lista de redes sem fio disponíveis e conecte-se à Internet. Sem uma conexão ativa, o Mac não poderá fazer download e instalar o sistema do zero.
+Passo 8. Aceite os termos de uso para avançar.
+Passo 9. Por fim, selecione o seu disco de armazenamento e clique em “Instalar” para iniciar o processo de download e instalação do macOS. O procedimento é totalmente automatizado, e leva vários minutos para completar, a depender da velocidade da conexão e do desempenho do computador – ou seja, quanto mais rápida a Internet e mais poderoso for o seu Mac, menos tempo levará para finalizar o processo.

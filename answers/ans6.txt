@@ -1,5 +1,5 @@
-Para formatar o seu Windows, você deve ligá-lo e abrir o menu “Iniciar” do Windows;
-Na sequência, o usuário deve clicar no ícone de “Configurações”;
+A formatação do Windows é muito simples, mas antes é recomendado que você realize o backup do seus arquivos. Siga esses passos para formatar o seu pc:
+Abra o menu "Iniciar" e clique no ícone de “Configurações”;
 Agora, basta selecionar o menu do sistema chamado de “Atualização e Segurança”;
 Na barra lateral à esquerda da tela, clique em “Recuperação”. Agora, vá na opção “Restaurar PC”;
 Feito o acesso na restauração, inicie o processo clicando na opção “Começar agora”;

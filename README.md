@@ -1,11 +1,15 @@
 # Chatbot BNF
 
 ## Dependências necessárias
-https://www.nltk.org/_modules/nltk/stem/snowball.html
+https://www.nltk.org/install.html
 
-        pip3 install nltk
-        pip3 install numpy
+https://numpy.org/doc/stable/user/absolute_beginners.html
+
+https://scikit-learn.org/stable/install.html
+
 
 ## Como executar
 
         python3 main.py
+        Faça as perguntas (exemplos estão no /files/questions.txt)
+        Encerre a conversa falando 'Tchau'

@@ -2,5 +2,5 @@ Para atualizar os drivers do Windows:
 - Acesse o Windows Update. Na área de busca do Windows 10, digite Windows Update;
 - Confira se há atualizações.
 - Instale os novos drivers.
-- O Windows vai verificar o sistema e instalar drivers novos, se eles existirem;
+- O sistema irá instalar drivers novos, se eles existirem;
 - Reinicie o sistema.

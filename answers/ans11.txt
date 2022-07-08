@@ -1,0 +1,10 @@
+Se sua impressora não estiver imprimindo, saiba que este erro é bastante comum e pode ser resolvido de forma bem simples. Na maior parte das vezes, basta eliminar um documento pendente, atualizar um driver ou fazer pequenas mudanças nas configurações para que a máquina imprima novamente.
+Veja a seguir os principais motivos de erro durante a impressão e as suas respectivas soluções.
+1. Limpe a fila de impressão
+2. Desconecte e reconecte a impressora e outros dispositivos
+3. Verifique os cartuchos
+4. Faça downgrade do firmware (para modelos da HP)
+5. Resete a impressora
+6. Use a solução de problemas do Windows
+7. Instale ou atualize o driver
+8. Assistência técnica

@@ -1,0 +1,5 @@
+Se você tem um mouse com um cabo, certifique-se de que ele está firmemente conectado a seu computador.
+Se ele é um mouse USB (com um conector retangular), tente conectá-lo a uma porta USB diferente. Se for um mouse PS/2 (com um conector redondo e pequeno, com seis pinos), certifique-se de que ele está plugado à porta de mouse, verde, ao invés da porta do teclado, roxa. Você pode ter que reiniciar o computador, se ele não estava conectado antes.
+
+Conecte o mouse em um computador diferente e veja se ele funciona.
+Se o mouse for óptico ou laser, uma luz deveria estar brilhando embaixo do mouse, se ele estiver ligado. Se não houver luz, verifique se ele está ativado. Se ele estiver ligado e mesmo assim não houver luz, o mouse pode estar defeituoso.

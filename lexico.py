@@ -14,13 +14,13 @@ TK_DISPOSITIVO = 'dispositivo'
 class Lexico:
     def __init__(self, stopwords):
         self.__pergunta = ('qual', 'quais', 'quanto', 'quantos', 'quantas', 'como', 'quando')
-        self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'configurar', 'instalar', 'formatar','limpar', 'usar', 'imprimir', 'remover', 'backup')
+        self.__acao = ('ligar', 'reiniciar', 'desligar', 'jogar', 'atualizar', 'comprar', 'configurar', 'instalar', 'formatar','limpar', 'usar', 'imprimir', 'remover', 'backup', 'armazenar', 'funcionar')
         self.__negacao = ('nunca', 'não', 'sem')
         self.__afirmacao = ('sim', self.__negacao)
-        self.__defeito = ('quebrado','lento','devagar','quente','vírus','travado','parado','barulho','ruído','congelou')
+        self.__defeito = ('quebrado','lento','devagar','quente','vírus','travado','parado','barulho','ruído','congelou', 'esquentando')
         self.__adjetivo = (self.__defeito, 'rápido','potente','barato','caro','novo','melhor')
-        self.__fabricante = ('apple','dell','samsung','lenovo','multilaser','logitech','acer','positivo','asus', 'windows')
-        self.__dispositivo = ('teclado','mouse','monitor','tela','notebook','computador','tablet','headset','headphone', 'fone de ouvido','drivers','impressora')
+        self.__fabricante = ('apple','dell','samsung','lenovo','multilaser','logitech','acer','positivo','asus', 'windows', 'ios')
+        self.__dispositivo = ('teclado','mouse','monitor','tela','notebook','computador','tablet','headset','headphone', 'fone de ouvido','drivers','impressora', 'macbook', 'pc', 'cooler')
 
         self.__table: List[Token] = []
         self.__stopwords = stopwords
@@ -30,8 +30,8 @@ class Lexico:
         text = self.__scanning(text) #Escaneia a-zA-Z0-9 e pontuações
         text = self.__remove_stopwords(text) #Remove palavras que estão na stopwords
 
+        self.__table = []
         self.__table = self.__create_symbol_table(text) #Cria tabela de símbolos passando texto sem stopwords
-
         return self.__table
 
     def __scanning(self, text: str):

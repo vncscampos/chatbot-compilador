@@ -1,4 +1,5 @@
 import sys
+import pathlib
 
 class File:
     def __init__(self):
@@ -8,7 +9,6 @@ class File:
         try:
             with open ('files/number_answers.txt', 'r') as file:
                 self.files_count = int(file.readline())
-                file.close()
         except:
             self.files_count = 0
 
@@ -16,6 +16,7 @@ class File:
         try:
             file = open('files/stopwords.txt', 'r', encoding='utf8')
             stopwords = [line[:-1] for line in file]
+            file.close()
 
             return stopwords
 
@@ -25,9 +26,14 @@ class File:
 
     def read_answers(self):
         answers: list = []
-        
+
+        initial_count = 0
+        for path in pathlib.Path("./answers").iterdir():
+            if path.is_file():
+                initial_count += 1
+
         try:
-            for i in range(9):
+            for i in range(initial_count):
                 file_name = 'answers/ans' + str(i+1) + '.txt'
                 file = open(file_name, 'r', encoding='utf8')
                 text = file.readlines()
@@ -36,6 +42,7 @@ class File:
                     msg += text[j]
 
                 answers.append(msg)
+                file.close()
 
             has_new_files = False
             if(len(answers) != self.files_count):

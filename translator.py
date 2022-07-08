@@ -3,7 +3,10 @@ from token_lexico import Token
 import numpy as np
 import re
 import json
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from iteration_utilities import duplicates
+from iteration_utilities import unique_everseen
 class Translator:
     def __init__(self, stopwords, answers, has_new_answers: bool):
         self.__answers: List[str] = answers
@@ -20,36 +23,39 @@ class Translator:
                 self.__inverted_index = self.generate_inverted_index()
 
     def translate(self, table: List[Token]):
-        tf_idf = 0
-        index = 0
+        list_occurrences = []
+        query = ''
 
         for token in table:
             word = token.text
 
             if(word in self.__inverted_index):
-                    occurrences = self.__inverted_index[word]
-                    for j in occurrences:
-                        document = self.__answers[j]
+                list_occurrences += self.__inverted_index[word]
 
-                        temp_tf_idf = self.term_freq(document, word) * self.inverse_doc_freq(word)
+            query += word + ' '
 
-                        if(tf_idf < temp_tf_idf):
-                            tf_idf = temp_tf_idf
-                            index = j
+        score = 0
+        answer_index = 0
 
-        return self.__answers[index]
+        temp_list = list(unique_everseen(duplicates(list_occurrences)))
 
+        if(len(temp_list) != 0):
+           list_occurrences = temp_list
 
-    def term_freq(self, document: str, word: str):
-        N = len(re.findall(r'\w+', document))
-        occurrence = document.lower().count(word)
-        return occurrence/N
-    
-    def document_freq(self, word):
-        return len(self.__inverted_index[word])
+        for index in list_occurrences:
+            document = self.__answers[index].lower()
 
-    def inverse_doc_freq(self, word):
-        return np.log(len(self.__answers)/self.document_freq(word)+1)
+            list_text = [query, document]
+            vectorizer = TfidfVectorizer(stop_words=self.__stopwords)
+            vectorizer.fit_transform(list_text)
+            tfidf_text1, tfidf_text2 = vectorizer.transform([list_text[0]]), vectorizer.transform([list_text[1]])
+            temp_score = np.round(cosine_similarity(tfidf_text1, tfidf_text2)[0][0], 8)
+
+            if(score < temp_score):
+                score = temp_score
+                answer_index = index
+
+        return self.__answers[answer_index]
 
     def generate_inverted_index(self):
         inverted_index = {}
@@ -75,6 +81,5 @@ class Translator:
         return text
 
     def save_inverted_index(self):
-        with open('inverted_index.json', 'w') as outfile:
+        with open('files/inverted_index.json', 'w') as outfile:
             json.dump(self.__inverted_index, outfile)
-            outfile.close()

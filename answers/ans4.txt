@@ -1,4 +1,4 @@
-A verdade é que há vários motivos que podem causar travamentos e uma performance mais lenta, sendo que alguns não precisam de grandes mudanças no hardware do seu PC ou notebook. Siga essas dicas que pode te ajudar:
+O problema do computador lento é muito comum e essas dicas podem otimizar o desempenho do seu pc
 - Reinicie o PC ocasionalmente
 - Desative os programas que inicializam com o Windows
 - Faça uma varredura com um antivírus
