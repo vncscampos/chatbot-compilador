@@ -5,10 +5,10 @@ from file_reader import File
 
 file_reader = File()
 stopwords = file_reader.read_stopwords()
-answers = file_reader.read_answers()
+answers, has_new_answers = file_reader.read_answers()
 
 lexico = Lexico(stopwords)
-translator = Translator(stopwords, answers)
+translator = Translator(stopwords, answers, has_new_answers)
 
 while(True):
     query = input('>> ')
@@ -21,3 +21,4 @@ while(True):
     print('Chatbot: ', ans)
 
 translator.save_inverted_index()
+file_reader.save_size_answers()

@@ -5,17 +5,19 @@ import re
 import json
 
 class Translator:
-    def __init__(self, stopwords, answers):
+    def __init__(self, stopwords, answers, has_new_answers: bool):
         self.__answers: List[str] = answers
         self.__stopwords: List[str] = stopwords
 
-        try:
-            print('chego1')
-            file = open('inverted_index.json')
-            self.__inverted_index = json.load(file)
-        except:
-            print('chego2')
+        if(has_new_answers):
             self.__inverted_index = self.generate_inverted_index()
+        else:
+            try:
+                file = open('inverted_index.json')
+                self.__inverted_index = json.load(file)
+                file.close()
+            except:
+                self.__inverted_index = self.generate_inverted_index()
 
     def translate(self, table: List[Token]):
         tf_idf = 0
