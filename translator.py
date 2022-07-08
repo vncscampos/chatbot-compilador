@@ -1,92 +1,78 @@
 from typing import List
 from token_lexico import Token
-import sys
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from nltk.stem.snowball import SnowballStemmer
+import re
 
 class Translator:
-    def __init__(self, stopwords):
-        self.__inverted_file = []
-        self.__tfidf_matrix = {}
+    def __init__(self, stopwords, answers):
+        self.__answers = answers
         self.__stopwords = stopwords
-
-        try:
-            for i in range(9):
-                file_name = 'answers/ans' + str(i+1) + '.txt'
-                file = open(file_name, 'r', encoding='utf8')
-                text = file.readlines()
-                msg = ''
-                for j in range(len(text)):
-                    msg += text[j]
-
-                temp_dict = self.__tfidf_matrix
-                ans_index = {i: {}}
-                temp_dict.update(ans_index)
-                self.__tfidf_matrix = temp_dict
-                self.__inverted_file.append(msg)
-
-        except FileNotFoundError as err:
-            print(err)
-            sys.exit()
+        self.__inverted_file = {}
 
     def response(self, query: str):
-        ans = ''
-        score = -1
-        founded_words = 0
         query = query.split()
 
-        for key in self.__tfidf_matrix:
-            temp_score = 0
-            temp_founded_words = 0
+        temp_score = 0
+        answer_index = 0
+        for word in query:
+            if(word in self.__inverted_file):
+                scores = self.__inverted_file[word]
+                max_score = max(scores)
+                max_index = scores.index(max_score)
 
-            for word in query:
-                answer_words: dict = self.__tfidf_matrix[key]
+                if(temp_score < max_score):
+                    temp_score = max_score
+                    answer_index = max_index
 
-                if(word in answer_words):
-                    temp_founded_words += 1
-                    temp_score += answer_words[word]
-            
 
-            if(founded_words < temp_founded_words):
-                founded_words = temp_founded_words
-                score = temp_score
-                ans = self.__inverted_file[key]
-
-            if(founded_words == temp_founded_words):
-                if(score < temp_score):
-                    founded_words = temp_founded_words
-                    score = temp_score
-                    ans = self.__inverted_file[key]
-
-        return ans
+        return self.__answers[answer_index]
 
     def tfidf_calc(self, table: List[Token]):
         for token in table:
             word = token.text
 
-            for ans in range(len(self.__inverted_file)):
-                list_text = [word, self.__inverted_file[ans]]
+            temp_list = [0] * (len(self.__inverted_file)-1)
+            for i in range(len(self.__answers)):
+                new_answer = self.__ans_lexeme(self.__answers[i])
+                list_text = [self.__lexeme(word), new_answer]
+
                 vectorizer = TfidfVectorizer(stop_words=self.__stopwords)
                 vectorizer.fit_transform(list_text)
                 tfidf_text1, tfidf_text2 = vectorizer.transform([list_text[0]]), vectorizer.transform([list_text[1]])
                 score = np.round(cosine_similarity(tfidf_text1, tfidf_text2)[0][0], 4)
 
-                if(score != 0):
-                    word_score = {}
-                    word_score[word] = score
+                temp_list.insert(i, score)
+            
+            word_index = {}
+            word_index[word] = temp_list
+            temp_dict = self.__inverted_file
+            temp_dict.update(word_index)
+            self.__inverted_file = temp_dict
 
-                    ans_texts: dict = self.__tfidf_matrix[ans]
-                    ans_texts.update(word_score)
+    def __ans_lexeme(self, answer: str):
+        new_answer: str = answer.lower()
 
-                    self.__tfidf_matrix[ans] = ans_texts
-        
-        self.__print_tfidf_matrix()
+        new_answer: list = re.sub('[^a-záàâãéèêíóôõúçA-Z0-9 \n]', '', new_answer).split(' ')
 
-    def __print_tfidf_matrix(self):
-        for index in range(8):
-            print('{} = {}'.format(index, self.__tfidf_matrix[index]))
+        temp_text = new_answer
+        for word in temp_text:
+            if(word in self.__stopwords):
+                text = list(filter((word).__ne__, new_answer))
 
-    
+        new_answer = text
 
+        temp = ''
+        for word in new_answer:
+            if(type(word) is str):
+                temp += self.__lexeme(word) + ' '
 
+        new_answer = temp
+        return new_answer
+
+    def __lexeme(self, word: str):
+        # https://www.nltk.org/_modules/nltk/stem/snowball.html
+        snow_stemmer = SnowballStemmer(language='portuguese')
+        return snow_stemmer.stem(word)
